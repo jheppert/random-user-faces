@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Random User</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+</head>
+<body>
+    <form action="javascript:goGetSomeFaces()">
+        <input type="number" id="numberOfFaces" value=20>
+        <input type="radio" id="genderOfFacesFemale" name="gender" value="female" checked>Female
+        <input type="radio" id="genderOfFacesMale" name="gender" value="male">Male
+        <input type="submit" id="getFacesButton" value="Get Faces">
+    </form>
+    <br>
+    <div id="facesArea">Faces appear here</div>
+
+    <script>
+    // var results = "50";
+    // var gender = "female";
+
+    function goGetSomeFaces(){
+        // Get form values:
+        var facesNumber = document.getElementById('numberOfFaces').value;
+        var facesGender = document.querySelector('input[name="gender"]:checked').value;
+
+        // Get faces:
+        $.ajax({
+          url: 'https://randomuser.me/api/',
+          data: 'results=' + facesNumber + '&gender=' + facesGender,
+          dataType: 'json',
+          success: function(data){
+            $("#facesArea").html("");
+            console.log(data);
+            $.each(data.results, function(){
+                var imageURL = this.picture.large;
+                var imageLink = "<img src=" + imageURL +">"
+                console.log(imageLink);
+                $("#facesArea").append(imageLink);
+            });
+          }
+        });
+    }
+
+
+
+    </script>
+
+</body>
+</html>
