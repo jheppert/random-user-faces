@@ -11,9 +11,14 @@
 </head>
 <body>
     <form action="javascript:goGetSomeFaces()">
-        <input type="number" id="numberOfFaces" value=20>
-        <input type="radio" id="genderOfFacesFemale" name="gender" value="female" checked>Female
-        <input type="radio" id="genderOfFacesMale" name="gender" value="male">Male
+        <label for="numberOfFaces">How many faces:</label>
+        <input type="number" id="numberOfFaces" value=20 size="5">
+        <input type="radio" id="genderOfFacesFemale" name="gender" value="female">
+        <label for="genderOfFacesFemale">Female</label>
+        <input type="radio" id="genderOfFacesMale" name="gender" value="male">
+        <label for="genderOfFacesMale">Male</label>
+        <input type="radio" id="genderOfFacesBoth" name="gender" value="both" checked>
+        <label for="genderOfFacesBoth">Both</label>
         <input type="submit" id="getFacesButton" value="Get Faces">
     </form>
     <br>
@@ -27,11 +32,15 @@
         // Get form values:
         var facesNumber = document.getElementById('numberOfFaces').value;
         var facesGender = document.querySelector('input[name="gender"]:checked').value;
+        var genderString = '';
+        if (facesGender != 'both') {
+            genderString = '&gender=' + facesGender;
+        }
 
         // Get faces:
         $.ajax({
           url: 'https://randomuser.me/api/',
-          data: 'results=' + facesNumber + '&gender=' + facesGender,
+          data: 'results=' + facesNumber + genderString,
           dataType: 'json',
           success: function(data){
             $("#facesArea").html("");
